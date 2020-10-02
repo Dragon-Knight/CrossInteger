@@ -1,0 +1,36 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Class (KEYWORD1)
+#######################################
+
+CrossInteger	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+SetCallback	KEYWORD2
+SetConversion	KEYWORD2
+SetVal	KEYWORD2
+SetMin	KEYWORD2
+SetMax	KEYWORD2
+SetStep	KEYWORD2
+SetInterval	KEYWORD2
+GoMin	KEYWORD2
+GoMax	KEYWORD2
+GoCenter	KEYWORD2
+FadeTo	KEYWORD2
+FadeMin	KEYWORD2
+FadeMax	KEYWORD2
+FadeCenter	KEYWORD2
+GetVal	KEYWORD2
+GetCallback	KEYWORD2
+Processing	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
