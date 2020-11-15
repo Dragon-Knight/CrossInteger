@@ -64,6 +64,11 @@ void OnFading(uint8_t value, bool complete)
 	return;
 }
 
+uint8_t OnConversion(uint8_t min, uint8_t max, uint8_t from, uint8_t to, uint8_t current)
+{
+	return current + 1;
+}
+
 
 uint8_t rnd1_val = 0;
 uint8_t rnd2_val = 0;

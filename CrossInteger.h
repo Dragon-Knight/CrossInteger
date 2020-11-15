@@ -128,6 +128,7 @@ class CrossInteger
 		{
 			if(_data.min <= val_to && _data.max >= val_to)
 			{
+				_data.val_from = _data.val;
 				_data.val_to = val_to;
 			}
 			
@@ -137,6 +138,7 @@ class CrossInteger
 		// Плавно установить минимальное значение.
 		void FadeMin()
 		{
+			_data.val_from = _data.val;
 			_data.val_to = _data.min;
 			
 			return;
@@ -145,6 +147,7 @@ class CrossInteger
 		// Плавно установить максимальное значение.
 		void FadeMax()
 		{
+			_data.val_from = _data.val;
 			_data.val_to = _data.max;
 			
 			return;
@@ -153,6 +156,7 @@ class CrossInteger
 		// Плавно установить среднее значение.
 		void FadeCenter()
 		{
+			_data.val_from = _data.val;
 			_data.val_to = (_data.min + _data.max) / 2;
 			
 			return;
@@ -175,7 +179,7 @@ class CrossInteger
 		{
 			if( (_data.update + _data.interval) <= currentTime && _data.val != _data.val_to)
 			{
-				_data.val = (_data.conversion != nullptr) ? _data.conversion(_data.min, _data.max, 0, _data.val_to, _data.val) : _Move();
+				_data.val = (_data.conversion != nullptr) ? _data.conversion(_data.min, _data.max, _data.val_from, _data.val_to, _data.val) : _Move();
 				_data.callback( _data.val, (_data.val == _data.val_to) );
 				_data.update = currentTime;
 			}
@@ -206,6 +210,7 @@ class CrossInteger
 		{
 			T val;				// Текущее значение.
 			T val_to;			// Значение, к которому стремится val.
+			T val_from;			// Значение, от которого стремится val.
 			T min;				// Минимальное значение val.
 			T max;				// Максимальное значение val.
 			T step;				// Размер шага.
