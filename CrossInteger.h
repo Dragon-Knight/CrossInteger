@@ -9,12 +9,12 @@
 
 #pragma once
 
-template<typename T>
+template<typename T, uint8_t _id = 0>
 class CrossInteger
 {
 	public:
-		using callback_t = void (*)(T value, bool complete);
-		using conversion_t = T (*)(T min, T max, T from, T to, T current);
+		using callback_t = void (*)(uint8_t id, T value, bool complete);
+		using conversion_t = T (*)(uint8_t id, T min, T max, T from, T to, T current);
 		
 		CrossInteger()
 		{
@@ -29,7 +29,7 @@ class CrossInteger
 		// Указать колбэк-функцию изменения значения.
 		void SetCallback(callback_t callback)
 		{
-			_data.callback = callback;
+			_data.callback_change = callback;
 			
 			return;
 		};
@@ -37,7 +37,7 @@ class CrossInteger
 		// Указать колбэк-функцию пересчёта значения.
 		void SetConversion(conversion_t conversion)
 		{
-			_data.conversion = conversion;
+			_data.callback_convert = conversion;
 			
 			return;
 		};
@@ -90,7 +90,7 @@ class CrossInteger
 			{
 				_data.val = _data.min;
 				_data.val_to = _data.val;
-				_data.callback( _data.val, true );
+				_data.callback_change( _id, _data.val, true );
 			}
 			
 			return;
@@ -103,7 +103,7 @@ class CrossInteger
 			{
 				_data.val = _data.max;
 				_data.val_to = _data.val;
-				_data.callback( _data.val, true );
+				_data.callback_change( _id, _data.val, true );
 			}
 			
 			return;
@@ -117,7 +117,7 @@ class CrossInteger
 			{
 				_data.val = new_val;
 				_data.val_to = _data.val;
-				_data.callback( _data.val, true );
+				_data.callback_change( _id, _data.val, true );
 			}
 			
 			return;
@@ -171,7 +171,7 @@ class CrossInteger
 		//
 		void GetCallback()
 		{
-			_data.callback( _data.val, (_data.val == _data.val_to) );
+			_data.callback_change( _id, _data.val, (_data.val == _data.val_to) );
 		}
 		
 		// Обработка класса.
@@ -179,8 +179,8 @@ class CrossInteger
 		{
 			if( (_data.update + _data.interval) <= currentTime && _data.val != _data.val_to)
 			{
-				_data.val = (_data.conversion != nullptr) ? _data.conversion(_data.min, _data.max, _data.val_from, _data.val_to, _data.val) : _Move();
-				_data.callback( _data.val, (_data.val == _data.val_to) );
+				_data.val = (_data.callback_convert != nullptr) ? _data.callback_convert( _id, _data.min, _data.max, _data.val_from, _data.val_to, _data.val ) : _Move();
+				_data.callback_change( _id, _data.val, (_data.val == _data.val_to) );
 				_data.update = currentTime;
 			}
 			
@@ -216,7 +216,7 @@ class CrossInteger
 			T step;				// Размер шага.
 			uint32_t interval;	// Интервал обновления, в мс.
 			uint32_t update;	// Время последнего обновления.
-			callback_t callback;		// Колбэк-функция изменения значения.
-			conversion_t conversion;	// Колбэк-функция пересчёта значения.
+			callback_t callback_change;		// Колбэк-функция изменения значения.
+			conversion_t callback_convert;	// Колбэк-функция пересчёта значения.
 		} _data;
 };

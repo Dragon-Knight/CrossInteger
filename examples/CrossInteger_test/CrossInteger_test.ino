@@ -41,7 +41,7 @@ void loop()
 	return;
 }
 
-void OnFading(uint8_t value, bool complete)
+void OnFading(uint8_t id, uint8_t value, bool complete)
 {
 	/*
 	Serial.print("OnFading (");
@@ -64,7 +64,7 @@ void OnFading(uint8_t value, bool complete)
 	return;
 }
 
-uint8_t OnConversion(uint8_t min, uint8_t max, uint8_t from, uint8_t to, uint8_t current)
+uint8_t OnConversion(uint8_t id, uint8_t min, uint8_t max, uint8_t from, uint8_t to, uint8_t current)
 {
 	return current + 1;
 }
