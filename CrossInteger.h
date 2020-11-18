@@ -21,7 +21,7 @@ class CrossInteger
 			return;
 		};
 		
-		CrossInteger(callback_t callback, T val, T min, T max, T step, uint32_t interval) : _data{val, val, min, max, step, interval, 0, callback, nullptr}
+		CrossInteger(callback_t callback, T val, T min, T max, T step, uint32_t interval) : _data{val, val, val, min, max, step, interval, 0, callback, nullptr}
 		{
 			return;
 		};
@@ -168,16 +168,18 @@ class CrossInteger
 			return _data.val;
 		};
 		
-		//
+		// Принудительно вызвать колбэк-функцию.
 		void GetCallback()
 		{
 			_data.callback_change( _id, _data.val, (_data.val == _data.val_to) );
+			
+			return;
 		}
 		
 		// Обработка класса.
 		void Processing(uint32_t currentTime = millis())
 		{
-			if( (_data.update + _data.interval) <= currentTime && _data.val != _data.val_to)
+			if( _data.val != _data.val_to && (_data.update + _data.interval) <= currentTime )
 			{
 				_data.val = (_data.callback_convert != nullptr) ? _data.callback_convert( _id, _data.min, _data.max, _data.val_from, _data.val_to, _data.val ) : _Move();
 				_data.callback_change( _id, _data.val, (_data.val == _data.val_to) );
